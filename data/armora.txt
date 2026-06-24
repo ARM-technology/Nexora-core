@@ -1,0 +1,108 @@
+# Armora
+
+Armora is an AI-powered CRM and business automation platform built for businesses in Saudi Arabia and the Middle East.
+
+It transforms WhatsApp, customer communication channels, and business workflows into a unified intelligent management system.
+
+## What Armora Does
+
+Armora helps businesses:
+
+* Manage customer conversations from a single platform.
+* Allow multiple employees to work on one WhatsApp business number.
+* Automate customer support using AI agents.
+* Handle bookings, reservations, and appointments.
+* Manage customer relationships and sales pipelines.
+* Automate internal workflows and business processes.
+* Analyze customer interactions and business performance.
+* Create company-specific AI assistants with custom personalities and knowledge.
+
+## Key Features
+
+### AI Customer Service Agents
+
+Businesses can create AI agents trained on:
+
+* Company information
+* Product catalogs
+* Service policies
+* Internal documentation
+* Frequently asked questions
+
+The AI agent can respond using the company's preferred tone, style, and branding.
+
+### WhatsApp CRM
+
+Armora turns WhatsApp into a complete CRM platform.
+
+Features include:
+
+* Shared inbox
+* Multi-agent support
+* Customer history
+* Automated replies
+* Lead management
+* Team collaboration
+
+### Booking and Reservation Management
+
+Businesses can manage:
+
+* Appointments
+* Reservations
+* Customer scheduling
+* Availability management
+* Automated reminders
+
+### Business Workflow Automation
+
+Armora automates repetitive tasks such as:
+
+* Lead assignment
+* Customer follow-ups
+* Support ticket routing
+* Appointment confirmations
+* Internal notifications
+
+### AI Knowledge System
+
+Armora can connect company knowledge and documents into an AI-powered knowledge assistant that can answer customer or employee questions.
+
+## Target Industries
+
+Armora is designed for:
+
+* Clinics and healthcare providers
+* Restaurants and cafes
+* Hotels and hospitality businesses
+* Retail and e-commerce companies
+* Service businesses
+* Educational institutions
+* Government organizations
+* Small and medium-sized businesses (SMEs)
+
+## Technical Architecture
+
+Armora is built using:
+
+* Golang backend infrastructure
+* Flutter cross-platform applications
+* PostgreSQL database systems
+* Cloud-native architecture
+* AI and Large Language Model integrations
+
+## Regional Focus
+
+Armora is optimized for:
+
+* Saudi Arabia
+* GCC countries
+* Arabic language support
+* Gulf business workflows
+* Regional compliance and data requirements
+
+## Positioning
+
+Armora is an AI-powered WhatsApp CRM and business automation platform that combines customer communication, AI agents, workflow automation, bookings, and business management in a single system.
+
+Its goal is to help organizations reduce manual work, improve customer experience, and operate with AI-enhanced workflows.

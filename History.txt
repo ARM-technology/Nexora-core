@@ -1,0 +1,21 @@
+"
+   // ==== اسم العرض (اختياري) من contacts store ====
+        targetDisplay := otherJID.User
+        if exists && client != nil && client.Store != nil {
+            contact, err := client.Store.Contacts.GetContact(context.Background(), otherJID)
+            if err == nil && contact.Found {
+                // أولويات الاسم
+                if contact.FullName != "" {
+                    targetDisplay = contact.FullName
+                } else if contact.PushName != "" {
+                    targetDisplay = contact.PushName
+                } else if contact.BusinessName != "" {
+                    targetDisplay = contact.BusinessName
+                } else if contact.RedactedPhone != "" {
+                    targetDisplay = contact.RedactedPhone
+                } else if contact.FirstName != "" {
+                    targetDisplay = contact.FirstName
+                }
+            }
+        }
+    "

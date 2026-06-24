@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARMORA | منصة أتمتة الأعمال الذكية</title>
+
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+         :root {
+            --bg-deep: #020617;
+            --accent-cyan: #22d3ee;
+            --accent-blue: #3b82f6;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --neon-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(2, 6, 23, 0.7);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-main);
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo span {
+            color: var(--accent-cyan);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+        
+        .btn-cta {
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-cyan));
+            color: #000;
+            padding: 0.7rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: 0.4s;
+            box-shadow: var(--neon-shadow);
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(34, 211, 238, 0.6);
+        }
+        
+        section {
+            padding: 100px 10%;
+        }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to bottom, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-dim);
+            max-width: 800px;
+            margin-bottom: 2.5rem;
+        }
+        
+        .hero-btns {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--glass-border);
+            padding: 0.7rem 1.8rem;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--glass-bg);
+        }
+        
+        .problem-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+            margin-top: 2rem;
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .audience-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: 0.4s;
+        }
+        
+        .audience-card i {
+            font-size: 2.5rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1.5rem;
+        }
+        
+        .audience-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-10px);
+            background: rgba(34, 211, 238, 0.05);
+        }
+        
+        .feature-card {
+            position: relative;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-cyan);
+        }
+        
+        .feature-card i {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+        }
+        /* --- Pricing Specific Logic --- */
+        
+        .pricing-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 240px;
+            height: 50px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            display: flex;
+            padding: 5px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+        
+        .toggle-option {
+            flex: 1;
+            text-align: center;
+            line-height: 40px;
+            z-index: 2;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            color: var(--text-dim);
+        }
+        
+        .toggle-option.active {
+            color: #000;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            width: 115px;
+            height: 40px;
+            background: var(--accent-cyan);
+            border-radius: 40px;
+            transition: 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            z-index: 1;
+            box-shadow: var(--neon-shadow);
+        }
+        
+        .toggle-switch.enterprise-active .toggle-slider {
+            transform: translateX(-115px);
+        }
+        /* الكلاس الأساسي لإخفاء الباقات */
+        
+        .pricing-grid {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+            width: 100%;
+        }
+        /* الكلاس المخصص لإظهار الباقة المحددة فقط */
+        
+        .pricing-grid.is-visible {
+            display: grid;
+        }
+        
+        .price-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 2.5rem 1.5rem;
+            border-radius: 24px;
+            text-align: center;
+            transition: 0.4s;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .price-card.featured {
+            border: 2px solid var(--accent-cyan);
+            background: rgba(34, 211, 238, 0.03);
+        }
+        
+        .price-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .price-card .plan-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+        
+        .price-card .price {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+        
+        .price-card .price span {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+        
+        .price-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: right;
+            flex-grow: 1;
+        }
+        
+        .price-features li {
+            margin-bottom: 0.8rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+        
+        .price-features li i {
+            color: var(--accent-cyan);
+            margin-left: 10px;
+        }
+        
+        .admin-report-note {
+            margin-top: 4rem;
+            background: rgba(34, 211, 238, 0.02);
+            border: 1px dashed var(--glass-border);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+        
+        footer {
+            padding: 4rem 10%;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+            background: rgba(2, 6, 23, 0.9);
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-text {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 5%;
+            }
+            .nav-links {
+                display: none;
+            }
+            section {
+                padding: 60px 5%;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <nav>
+        <div class="logo">ARM<span>ORA</span></div>
+        <div class="nav-links">
+            <a href="#about">لماذا نحن؟</a>
+            <a href="#audience">الفئات</a>
+            <a href="#features">المميزات</a>
+            <a href="#pricing">الأسعار</a>
+        </div>
+        <a href="http://207.154.255.210:8080/" class="btn-cta"> تسجيل الدخول</a>
+    </nav>
+
+    <section class="hero">
+        <h1 class="reveal">حول واتساب منشأتك إلى<br>نظام إدارة متكامل</h1>
+        <p class="reveal">منصة واحدة، فريق عمل غير محدود، وردود آلية ذكية تعمل 24/7 لخدمة عملائك وزيادة مبيعاتك. CRM </p>
+        <div class="hero-btns reveal">
+            <a href="#pricing" class="btn-cta">اشترك الآن</a>
+            <a href="#about" class="btn-secondary">شاهد العرض <i class="fa-solid fa-play" style="margin-right: 8px;"></i></a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="reveal" style="text-align: center;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">وداعاً للفوضى التشغيلية</h2>
+            <p style="color: var(--text-dim);">هل تعاني من ضياع المحادثات؟ أو تأخر الردود؟ أرمورا تجمع فريقك في مكان واحد.</p>
+        </div>
+        <div class="problem-box reveal">
+            <div class="grid-container">
+                <div style="text-align: right;">
+                    <h3 style="color: var(--accent-cyan); margin-bottom: 1rem;">قبل ARMORA</h3>
+                    <ul style="list-style: none; color: var(--text-dim);">
+                        <li><i class="fa-solid fa-xmark" style="color: #ef4444; margin-left: 10px;"></i> اعتماد على هاتف واحد وموظف واحد</li>
+                        <li><i class="fa-solid fa-xmark" style="color: #ef4444; margin-left: 10px;"></i> عدم القدرة على مراقبة جودة الردود</li>
+                        <li><i class="fa-solid fa-xmark" style="color: #ef4444; margin-left: 10px;"></i> فوضى في مواعيد الحجوزات اليدوية</li>
+                    </ul>
+                </div>
+                <div style="text-align: right; border-right: 1px solid var(--glass-border); padding-right: 2rem;">
+                    <h3 style="color: var(--accent-cyan); margin-bottom: 1rem;">بعد ARMORA</h3>
+                    <ul style="list-style: none;">
+                        <li><i class="fa-solid fa-check" style="color: var(--accent-cyan); margin-left: 10px;"></i> عشرات الموظفين يردون من رقم واحد</li>
+                        <li><i class="fa-solid fa-check" style="color: var(--accent-cyan); margin-left: 10px;"></i> تقارير أداء ومراقبة لحظية للمحادثات</li>
+                        <li><i class="fa-solid fa-check" style="color: var(--accent-cyan); margin-left: 10px;"></i> نظام حجز آلي يغلق الصفقات فوراً</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="audience">
+        <h2 class="reveal" style="text-align: center; font-size: 2.5rem; margin-bottom: 3rem;">صُمم خصيصاً لنمو أعمالك</h2>
+        <div class="grid-container reveal">
+            <div class="audience-card">
+                <i class="fa-solid fa-house-medical"></i>
+                <h3>العيادات والمراكز</h3>
+                <p style="color: var(--text-dim); margin-top: 10px;">أتمتة الحجوزات الطبية وتذكير المرضى بمواعيدهم دون تدخل بشري.</p>
+            </div>
+            <div class="audience-card">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <h3>المتاجر الإلكترونية</h3>
+                <p style="color: var(--text-dim); margin-top: 10px;">تحويل الاستفسارات إلى مبيعات ومعالجة الطلبات بسرعة فائقة.</p>
+            </div>
+            <div class="audience-card">
+                <i class="fa-solid fa-gears"></i>
+                <h3>شركات الخدمات</h3>
+                <p style="color: var(--text-dim); margin-top: 10px;">إدارة طلبات الصيانة والخدمات اللوجستية وتوزيع المهام على الفريق.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="features">
+        <h2 class="reveal" style="text-align: center; font-size: 2.5rem; margin-bottom: 3rem;">أدوات قوية تحت تصرفك</h2>
+        <div class="grid-container reveal">
+            <div class="feature-card">
+                <i class="fa-solid fa-robot"></i>
+                <h3>الرد الآلي الذكي</h3>
+                <p>بناء سيناريوهات رد آلي ذكية تتعامل مع الأسئلة الشائعة وتوجه العملاء بدقة.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-calendar-check"></i>
+                <h3>نظام الحجوزات</h3>
+                <p>جدولة المواعيد مباشرة عبر المحادثة مع المزامنة اللحظية لجداول الموظفين.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-users-gear"></i>
+                <h3>تعدد الموظفين</h3>
+                <p>تخصيص صلاحيات لكل موظف وتوزيع المحادثات آلياً لضمان سرعة الاستجابة.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-chart-line"></i>
+                <h3>لوحة تحكم شاملة</h3>
+                <p>إحصائيات دقيقة عن عدد الرسائل، سرعة الرد، وتقارير أداء الفريق والمبيعات.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing">
+        <h2 class="reveal" style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem;">خطط تناسب طموحك</h2>
+        <p class="reveal" style="text-align: center; color: var(--text-dim); margin-bottom: 3rem;">اختر الخطة المثالية لحجم أعمالك الحالي</p>
+
+        <div class="pricing-toggle reveal">
+            <div class="toggle-switch" id="pricing-switcher">
+                <div class="toggle-slider"></div>
+                <div class="toggle-option active" id="opt-individual">الأفراد</div>
+                <div class="toggle-option" id="opt-enterprise">المنشآت</div>
+            </div>
+        </div>
+
+        <!-- Individual Packages -->
+        <div class="pricing-grid is-visible reveal" id="grid-individual">
+            <div class="price-card">
+                <h3>الباقة الأساسية</h3>
+                <p class="plan-subtitle">للتجربة والانطلاق</p>
+                <div class="price">مجانية</div>
+                <ul class="price-features">
+                    <li><i class="fa-solid fa-check"></i> 30 رسالة خارجة شهرياً</li>
+                    <li><i class="fa-solid fa-check"></i> مستخدم واحد للنظام</li>
+                    <li><i class="fa-solid fa-check"></i> 3 ردود آلية ذكية</li>
+                    <li><i class="fa-solid fa-check"></i> أرشفة كاملة للمحادثات</li>
+                    <li><i class="fa-solid fa-check"></i> لوحة تحكم أساسية</li>
+                </ul>
+                <a href="#" class="btn-secondary">ابدأ مجاناً</a>
+            </div>
+            <div class="price-card">
+                <h3>باقة بلس</h3>
+                <p class="plan-subtitle">للمشاريع الصغيرة النشطة</p>
+                <div class="price">18 <span>/ شهرياً</span></div>
+                <ul class="price-features">
+                    <li><i class="fa-solid fa-check"></i> 120 رسالة خارجة شهرياً</li>
+                    <li><i class="fa-solid fa-check"></i> مستخدم واحد للنظام</li>
+                    <li><i class="fa-solid fa-check"></i> 6 ردود آلية ذكية</li>
+                    <li><i class="fa-solid fa-check"></i> نظام حجوزات (حتى 2 حجز)</li>
+                    <li><i class="fa-solid fa-check"></i> أرشفة وتاريخ كامل</li>
+                </ul>
+                <a href="#" class="btn-cta">اشترك الآن</a>
+            </div>
+            <div class="price-card featured">
+                <h3>باقة برو</h3>
+                <p class="plan-subtitle">للنمو وزيادة الطلب</p>
+                <div class="price">30 <span>/ شهرياً</span></div>
+                <ul class="price-features">
+                    <li><i class="fa-solid fa-check"></i> 200 رسالة خارجة شهرياً</li>
+                    <li><i class="fa-solid fa-check"></i> مستخدم واحد للنظام</li>
+                    <li><i class="fa-solid fa-check"></i> 8 ردود آلية ذكية</li>
+                    <li><i class="fa-solid fa-check"></i> نظام حجوزات (حتى 4 حجوزات)</li>
+                    <li><i class="fa-solid fa-check"></i> لوحة تحكم متقدمة</li>
+                </ul>
+                <a href="#" class="btn-cta">اشترك الآن</a>
+            </div>
+            <div class="price-card">
+                <h3>باقة برايم</h3>
+                <p class="plan-subtitle">احتراف كامل لفرد واحد</p>
+                <div class="price">50 <span>/ شهرياً</span></div>
+                <ul class="price-features">
+                    <li><i class="fa-solid fa-check"></i> 300 رسالة خارجة شهرياً</li>
+                    <li><i class="fa-solid fa-check"></i> مستخدم واحد للنظام</li>
+                    <li><i class="fa-solid fa-check"></i> 12 رداً آلياً ذكياً</li>
+                    <li><i class="fa-solid fa-check"></i> نظام حجوزات (حتى 6 حجوزات)</li>
+                    <li><i class="fa-solid fa-check"></i> لوحة تحكم متقدمة</li>
+                </ul>
+                <a href="#" class="btn-cta">اشترك الآن</a>
+            </div>
+        </div>
+
+        <!-- Enterprise Packages -->
+        <div class="pricing-grid reveal" id="grid-enterprise">
+            <div class="price-card">
+                <h3>باقة بريميوم</h3>
+                <p class="plan-subtitle">للشركات الصغيرة</p>
+                <div class="price">60 <span>/ شهرياً</span></div>
+                <ul class="price-features">
+                    <li><i class="fa-solid fa-check"></i> 350 رسالة خارجة شهرياً</li>
+                    <li><i class="fa-solid fa-check"></i> 3 مستخدمين للنظام</li>
+                    <li><i class="fa-solid fa-check"></i> 10 ردود آلية ذكية</li>
+                    <li><i class="fa-solid fa-check"></i> نظام حجوزات (حتى 6 حجوزات)</li>
+                    <li><i class="fa-solid fa-check"></i> أرشفة مركزية للمحادثات</li>
+                </ul>
+                <a href="#" class="btn-cta">اشترك الآن</a>
+            </div>
+            <div class="price-card">
+                <h3>الباقة الفضية</h3>
+                <p class="plan-subtitle">للفرق المتوسطة</p>
+                <div class="price">99 <span>/ شهرياً</span></div>
+                <ul class="price-features">
+                    <li><i class="fa-solid fa-check"></i> 500 رسالة خارجة شهرياً</li>
+                    <li><i class="fa-solid fa-check"></i> 6 مستخدمين للنظام</li>
+                    <li><i class="fa-solid fa-check"></i> 16 رداً آلياً ذكياً</li>
+                    <li><i class="fa-solid fa-check"></i> نظام حجوزات (حتى 8 حجوزات)</li>
+                    <li><i class="fa-solid fa-check"></i> لوحة تحكم إدارية</li>
+                </ul>
+                <a href="#" class="btn-cta">اشترك الآن</a>
+            </div>
+            <div class="price-card featured">
+                <h3>باقة نمو بلس</h3>
+                <p class="plan-subtitle">للشركات سريعة النمو</p>
+                <div class="price">195 <span>/ شهرياً</span></div>
+                <ul class="price-features">
+                    <li><i class="fa-solid fa-check"></i> 700 رسالة خارجة شهرياً</li>
+                    <li><i class="fa-solid fa-check"></i> 12 مستخدماً للنظام</li>
+                    <li><i class="fa-solid fa-check"></i> 20 رداً آلياً ذكياً</li>
+                    <li><i class="fa-solid fa-check"></i> نظام حجوزات (حتى 18 حجزاً)</li>
+                    <li><i class="fa-solid fa-check"></i> لوحة تحكم إدارية متقدمة</li>
+                </ul>
+                <a href="#" class="btn-cta">اشترك الآن</a>
+            </div>
+            <div class="price-card">
+                <h3>الباقة الذهبية</h3>
+                <p class="plan-subtitle">حل متكامل للمنشآت الكبيرة</p>
+                <div class="price">250 <span>/ شهرياً</span></div>
+                <ul class="price-features">
+                    <li><i class="fa-solid fa-check"></i> 1200 رسالة خارجة شهرياً</li>
+                    <li><i class="fa-solid fa-check"></i> 28 مستخدماً للنظام</li>
+                    <li><i class="fa-solid fa-check"></i> 55 رداً آلياً ذكياً</li>
+                    <li><i class="fa-solid fa-check"></i> نظام حجوزات (حتى 40 حجزاً)</li>
+                    <li><i class="fa-solid fa-check"></i> لوحة تحكم إدارية شاملة</li>
+                </ul>
+                <a href="#" class="btn-cta">اشترك الآن</a>
+            </div>
+        </div>
+
+        <div class="admin-report-note reveal">
+            <h4 style="color: var(--accent-cyan); margin-bottom: 0.5rem;"><i class="fa-solid fa-chart-pie" style="margin-left: 10px;"></i> تقارير الاستخدام الإدارية</h4>
+            <p style="color: var(--text-dim); font-size: 0.95rem;">
+                تقارير الاستهلاك متاحة للأدمن فقط، وتشمل تتبع دقيق لعدد الرسائل، والمستخدمين، والردود الآلية، والحجوزات.
+                <br>
+                <span style="color: var(--accent-blue); font-size: 0.85rem;">* لا تظهر هذه البيانات للموظفين أو المستخدمين العاديين لضمان خصوصية الإدارة.</span>
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">ARM<span>ORA</span></div>
+        <div style="display: flex; justify-content: center; gap: 2rem; margin: 2rem 0;">
+            <a href="https://www.linkedin.com/in/bassam-a-b45b50310/" style="color: var(--text-dim);"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" style="color: var(--text-dim);"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" style="color: var(--text-dim);"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+        <p class="footer-text">جميع الحقوق محفوظه لدى ARMORA</p>
+    </footer>
+
+    <script>
+        // --- الكود المعدل لضمان إخفاء/إظهار الباقات بشكل مطلق ---
+        const switcher = document.getElementById('pricing-switcher');
+        const gridIndividual = document.getElementById('grid-individual');
+        const gridEnterprise = document.getElementById('grid-enterprise');
+        const optIndividual = document.getElementById('opt-individual');
+        const optEnterprise = document.getElementById('opt-enterprise');
+
+        switcher.addEventListener('click', () => {
+            const isEnterprise = switcher.classList.toggle('enterprise-active');
+
+            if (isEnterprise) {
+                // تفعيل المنشآت
+                gridIndividual.classList.remove('is-visible');
+                gridEnterprise.classList.add('is-visible');
+                optIndividual.classList.remove('active');
+                optEnterprise.classList.add('active');
+            } else {
+                // تفعيل الأفراد
+                gridEnterprise.classList.remove('is-visible');
+                gridIndividual.classList.add('is-visible');
+                optEnterprise.classList.remove('active');
+                optIndividual.classList.add('active');
+            }
+        });
+
+        // --- Background Neural Network Animation ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = {
+            x: null,
+            y: null,
+            radius: 150
+        };
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+                if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < mouse.radius) {
+                    if (mouse.x > this.x && this.x > this.size * 10) this.x -= 1;
+                    if (mouse.x < this.x && this.x < canvas.width - this.size * 10) this.x += 1;
+                    if (mouse.y > this.y && this.y > this.size * 10) this.y -= 1;
+                    if (mouse.y < this.y && this.y < canvas.height - this.size * 10) this.y += 1;
+                }
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(34, 211, 238, 0.4)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            let numberOfParticles = (canvas.width * canvas.height) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function connect() {
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    let distance = ((particles[a].x - particles[b].x) * (particles[a].x - particles[b].x)) +
+                        ((particles[a].y - particles[b].y) * (particles[a].y - particles[b].y));
+                    if (distance < (canvas.width / 7) * (canvas.height / 7)) {
+                        let opacityValue = 1 - (distance / 20000);
+                        ctx.strokeStyle = `rgba(34, 211, 238, ${opacityValue})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            connect();
+            requestAnimationFrame(animate);
+        }
+
+        initParticles();
+        animate();
+
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+    </script>
+</body>
+
+</html>
